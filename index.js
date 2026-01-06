@@ -74,7 +74,7 @@ async function run() {
       const email = req.decoded.email;
       const query = { email };
       const user = await usersCollection.findOne(query);
-      if (!user || user.role !== "organizer") {
+      if (!user || role !== "organizer") {
         return res.status(403).send({ message: "forbidden access" });
       }
       next();
@@ -264,10 +264,6 @@ async function run() {
     // -----------------Organizer Profile API---------------------
     app.get("/organizerProfile/:email", async (req, res) => {
       const { email } = req.params;
-
-      if (!email) {
-        return res.status(400).send({ message: "Email required" });
-      }
 
       try {
         const organizer = await participantCollection.findOne({
